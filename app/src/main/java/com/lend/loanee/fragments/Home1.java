@@ -20,14 +20,11 @@ public class Home1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding=FragmentHome1Binding.inflate(inflater,container,false);
-
         ((Home) requireActivity()).setToolbar("Friend Lend");
         return binding.getRoot();
     }
