@@ -12,7 +12,7 @@
             android:icon="@drawable/chats"
             android:title="Chats"/>
         <item android:id="@+id/profile"
-            android:icon="@drawable/chats"
-            android:title="Chats"/>
+            android:icon="@drawable/user"
+            android:title="Profile"/>
     </group>
 </menu>

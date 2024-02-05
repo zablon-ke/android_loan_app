@@ -32,11 +32,9 @@
                 app:itemIconSize="24dp"
                 android:id="@+id/bottomNav"
                 app:itemTextColor="@color/black"
-                app:itemTextAppearanceActive="@color/white"
-                app:itemTextAppearanceInactive="@color/black"
                 android:layout_height="?attr/actionBarSize"
                 app:menu="@menu/bottomnav"
-                android:background="@color/white"/>
+                android:background="@drawable/bottom"/>
         </RelativeLayout>
 
     </LinearLayout>
