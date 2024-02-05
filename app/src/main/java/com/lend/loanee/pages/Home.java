@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.lend.loanee.R;
 import com.lend.loanee.databinding.ActivityHomeBinding;
+import com.lend.loanee.fragments.Home1;
 
 
 public class Home extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class Home extends AppCompatActivity {
         toolbar=findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new Home1()).commit();
 
         if(getSupportActionBar() !=null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -42,7 +44,9 @@ public class Home extends AppCompatActivity {
         super.onBackPressed();
         return true;
     }
-
+public void setToolbar(String title){
+        toolbar.setTitle(title);
+}
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

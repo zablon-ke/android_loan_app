@@ -7,5 +7,4 @@
         />
     <stroke android:color="@color/primary"
         android:width="1dp"/>
-
 </shape>
