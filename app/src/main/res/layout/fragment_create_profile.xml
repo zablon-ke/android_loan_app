@@ -296,9 +296,10 @@
                             android:textColor="@color/black"
                             android:padding="10dp"
                             android:hint="Email Address"
+                            android:editable="false"
                             android:background="@drawable/shape"
                             android:id="@+id/date_of_birth"
-                            android:inputType="phone"
+                            android:inputType="date"
                             android:fontFamily="@font/lato_light"
                             android:layout_height="50dp"/>
                     </LinearLayout>

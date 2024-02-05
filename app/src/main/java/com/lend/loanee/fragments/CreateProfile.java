@@ -1,5 +1,6 @@
 package com.lend.loanee.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -12,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
+import com.google.android.material.datepicker.MaterialStyledDatePickerDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.lend.loanee.R;
 import com.lend.loanee.databinding.ActivityRegisterBinding;
@@ -24,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -33,7 +37,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CreateProfile extends Fragment {
+import java.util.Calendar;
+public class CreateProfile extends Fragment implements MaterialStyledDatePickerDialog.OnDateSetListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -93,6 +98,15 @@ public class CreateProfile extends Fragment {
 //                }
             }
         });
+
+
+        binding.dateOfBirth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               showDatePicker();
+            }
+
+        });
         return binding.getRoot();
     }
 
@@ -150,6 +164,18 @@ public class CreateProfile extends Fragment {
         });
 
     }
+
+    private void showDatePicker(){
+
+        Calendar now = Calendar.getInstance();
+        @SuppressLint("RestrictedApi") MaterialStyledDatePickerDialog dpd = new MaterialStyledDatePickerDialog(requireActivity(),
+                0,this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH));
+
+        dpd.show();
+    }
     private Boolean valateFields(){
         boolean validated=true;
         if(binding.firstName.getText().toString().equals("")){
@@ -194,5 +220,12 @@ public class CreateProfile extends Fragment {
             snackbar.getView().setBackgroundColor(getResources().getColor(R.color.green));
         }
         snackbar.show();
+    }
+
+
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
     }
 }

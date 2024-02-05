@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
 }
 
+
+
 android {
     namespace = "com.lend.loanee"
     compileSdk = 34
@@ -39,6 +41,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation ("com.wdullaer:materialdatetimepicker:4.3.2")
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
