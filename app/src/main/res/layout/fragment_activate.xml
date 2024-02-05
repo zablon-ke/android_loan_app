@@ -139,6 +139,9 @@
                             android:text="Change Number"
                             android:id="@+id/forgot_password"
                             android:padding="5dp"
+                            android:textSize="24sp"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/primary"
                             android:gravity="center_horizontal"
                             android:layout_height="wrap_content"/>
 

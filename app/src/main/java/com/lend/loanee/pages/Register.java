@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.lend.loanee.R;
 import com.lend.loanee.databinding.ActivityRegisterBinding;
+import com.lend.loanee.fragments.Activate;
 import com.lend.loanee.fragments.CreateProfile;
 import com.lend.loanee.fragments.Emergency;
 import com.lend.loanee.helpers.ApiService;
@@ -33,7 +34,7 @@ public class Register extends AppCompatActivity implements Emergency.OnToolbarTe
         toolbar.setTitle("Create Profile");
         setSupportActionBar(toolbar);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_main,new CreateProfile()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_main,new Activate()).commit();
     }
 
     @Override
