@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lend.loanee.R;
+import com.lend.loanee.databinding.FragmentActivateBinding;
 
 
 public class Activate extends Fragment {
@@ -16,6 +17,8 @@ public class Activate extends Fragment {
 
 
 
+
+    FragmentActivateBinding binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,13 @@ public class Activate extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_activate, container, false);
+        binding=FragmentActivateBinding.inflate(inflater,container,false);
+        binding.btnActivate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        return binding.getRoot();
     }
 }

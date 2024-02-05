@@ -173,7 +173,6 @@ public class CreateProfile extends Fragment implements MaterialStyledDatePickerD
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH));
-
         dpd.show();
     }
     private Boolean valateFields(){
@@ -221,9 +220,7 @@ public class CreateProfile extends Fragment implements MaterialStyledDatePickerD
         }
         snackbar.show();
     }
-
-
-
+    
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
 

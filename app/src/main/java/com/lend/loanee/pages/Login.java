@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity {
                 if(valateFields() ){
                     String email=binding.mobile.getText().toString();
                     String password=binding.password.getText().toString();
-                    login(email,password);
+//                    login(email,password);
                 }
             }
         });

@@ -31,12 +31,16 @@ public class Register extends AppCompatActivity implements Emergency.OnToolbarTe
 
         toolbar=findViewById(R.id.toolbar);
 
-        toolbar.setTitle("Create Profile");
-        setSupportActionBar(toolbar);
-
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_main,new Activate()).commit();
+
+        toolbar.setTitle("Activate");
+
     }
 
+    public  void setToolbar(String title){
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+    }
     @Override
     public void updateToolbarText(String newText) {
         toolbar.setTitle(newText);
