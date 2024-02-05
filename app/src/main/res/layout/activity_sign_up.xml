@@ -174,7 +174,7 @@
                             android:layout_marginTop="40dp"
                             android:textSize="14sp"
                             android:id="@+id/btn_sign_in"
-                            android:text="Login"
+                            android:text="Login to account"
                             android:layout_gravity="center_horizontal"
                             />
                     </LinearLayout>

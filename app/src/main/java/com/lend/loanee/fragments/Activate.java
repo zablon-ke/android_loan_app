@@ -1,5 +1,6 @@
 package com.lend.loanee.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.lend.loanee.R;
 import com.lend.loanee.databinding.FragmentActivateBinding;
+import com.lend.loanee.pages.Register;
 
 
 public class Activate extends Fragment {
@@ -34,6 +36,8 @@ public class Activate extends Fragment {
             @Override
             public void onClick(View view) {
 
+                getParentFragmentManager().beginTransaction().replace(R.id.frame_main,new CreateProfile()).commit();
+                ((Register) requireActivity()).setToolbar("Create Profile");
             }
         });
         return binding.getRoot();

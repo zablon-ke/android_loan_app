@@ -31,9 +31,9 @@ public class Register extends AppCompatActivity implements Emergency.OnToolbarTe
 
         toolbar=findViewById(R.id.toolbar);
 
+        toolbar.setTitle("Activate");
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_main,new Activate()).commit();
 
-        toolbar.setTitle("Activate");
 
     }
 
