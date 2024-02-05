@@ -314,7 +314,7 @@
                                 android:background="@drawable/bg_green"
                                 android:textColor="@color/white"
                                 android:textSize="20sp"
-                                android:id="@+id/btn_next"
+                                android:id="@+id/btn_save"
                                 android:text="Save"
                                 android:layout_gravity="center_horizontal"
                                 />

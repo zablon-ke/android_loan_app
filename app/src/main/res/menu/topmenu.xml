@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group>
-        <item android:title="Quiz"
+        <item android:title="notification"
             app:showAsAction="ifRoom"
             android:icon="@drawable/ic_notify"
             android:id="@+id/notify"/>

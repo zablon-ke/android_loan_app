@@ -5,11 +5,14 @@
         <item android:title="Home"
             android:icon="@drawable/home"
             android:id="@+id/home"/>
-        <item android:title="Subscription"
-            android:icon="@drawable/betika2"
-            android:id="@+id/betika"/>
+        <item android:title="Loan"
+            android:icon="@drawable/loan2"
+            android:id="@+id/loan"/>
+        <item android:id="@+id/chats"
+            android:icon="@drawable/chats"
+            android:title="Chats"/>
         <item android:id="@+id/profile"
-            android:icon="@drawable/ic_user"
-            android:title="Account"/>
+            android:icon="@drawable/chats"
+            android:title="Chats"/>
     </group>
 </menu>
