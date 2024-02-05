@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.Activate">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:id="@+id/card"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardElevation="10dp"
+                android:layout_marginTop="20dp"
+                android:elevation="10dp"
+                android:layout_margin="20dp"
+                app:cardCornerRadius="5dp"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:id="@+id/linear1"
+                        android:padding="10dp"
+                        android:background="#80FFFFFF"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_marginBottom="30dp"
+                            android:fontFamily="@font/lato_bold"
+                            android:text="Activate Account"
+                            android:gravity="center_horizontal"
+                            android:textFontWeight="700"
+                            android:textSize="30dp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/shape"
+                        android:orientation="horizontal"
+                        android:layout_height="50dp">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:src="@drawable/phone"
+                            android:layout_gravity="center"
+                            android:foregroundGravity="center"
+                            android:layout_height="match_parent"/>
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:textSize="18sp"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/black"
+                            android:padding="10dp"
+                            android:enabled="false"
+                            android:hint="Phone number"
+                            android:background="@drawable/shape"
+                            android:id="@+id/mobile1"
+                            android:inputType="phone"
+                            android:fontFamily="@font/lato_light"
+                            android:layout_height="50dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/shape"
+                        android:orientation="horizontal"
+                        android:layout_height="50dp">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:src="@drawable/code"
+                            android:layout_gravity="center"
+                            android:layout_height="match_parent"/>
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:textSize="18sp"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/black"
+                            android:padding="10dp"
+                            android:hint="123456"
+                            android:background="@drawable/shape"
+                            android:id="@+id/code"
+                            android:inputType="number"
+                            android:fontFamily="@font/lato_light"
+                            android:layout_height="50dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_margin="20dp"
+                        android:padding="5dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_green"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:id="@+id/btn_sign_in"
+                            android:text="Activate"
+                            android:layout_gravity="center_horizontal"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_marginTop="40dp"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:orientation="vertical"
+                                android:background="@color/light_gray"
+                                android:layout_height="5dp"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:text="Change Number"
+                            android:id="@+id/forgot_password"
+                            android:padding="5dp"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </ScrollView>
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:id="@+id/progress"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_height="50dp"/>
+    </RelativeLayout>
+
+</FrameLayout>

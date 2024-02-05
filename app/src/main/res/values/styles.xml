@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="CustomToolbarTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize the back arrow color -->
+        <item name="android:colorControlNormal">@color/white</item>
+        <!-- Customize the back arrow size -->
+    </style>
+</resources>
