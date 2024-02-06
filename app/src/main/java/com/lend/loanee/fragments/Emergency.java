@@ -25,7 +25,6 @@ public class Emergency extends Fragment {
 
     FragmentEmergencyBinding binding;
 
-
     public interface OnToolbarTextChangeListener {
         void updateToolbarText(String newText);
     }
@@ -46,11 +45,9 @@ public class Emergency extends Fragment {
             toolbarTextChangeListener = (OnToolbarTextChangeListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnToolbarTextChangeListener");
+                    + " must implement OnToolb+                                                                                                                                                                                                                                                                                                                                                                                     arTextChangeListener");
         }
     }
-
- 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

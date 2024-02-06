@@ -16,15 +16,10 @@ import com.lend.loanee.pages.Register;
 
 public class Activate extends Fragment {
 
-
-
-
-
     FragmentActivateBinding binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -35,7 +30,6 @@ public class Activate extends Fragment {
         binding.btnActivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 getParentFragmentManager().beginTransaction().replace(R.id.frame_main,new CreateProfile()).commit();
                 ((Register) requireActivity()).setToolbar("Create Profile");
             }
