@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="10dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="10dp"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:text="name"
+        style="@style/textviewStyle"
+        android:id="@+id/txt_fullname"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="is request a loan of "
+        style="@style/textviewStyle"
+        android:id="@+id/txt_amount"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="To be repaid in "
+        style="@style/textviewStyle"
+        android:id="@+id/txt_period"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Interest to be earned"
+        style="@style/textviewStyle"
+        android:id="@+id/txt_interest"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/linear_accept"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Decline"
+            android:textColor="@color/white"
+            android:id="@+id/btn_decline"
+            android:background="@color/red_2"
+            style="@style/textviewStyle"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Accept"
+            android:textColor="@color/white"
+            android:id="@+id/btn_accept"
+            android:background="@color/green"
+            style="@style/textviewStyle"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Declined"
+        style="@style/textviewStyle"
+        android:id="@+id/txt_status"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>

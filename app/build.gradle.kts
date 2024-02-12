@@ -2,8 +2,6 @@ plugins {
     id("com.android.application")
 }
 
-
-
 android {
     namespace = "com.lend.loanee"
     compileSdk = 34

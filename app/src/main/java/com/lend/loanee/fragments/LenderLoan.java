@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 
 import com.lend.loanee.R;
 import com.lend.loanee.databinding.FragmentLenderLoanBinding;
+import com.lend.loanee.helpers.RequestListener;
 
-public class LenderLoan extends Fragment {
+public class LenderLoan extends Fragment implements RequestListener {
 
     FragmentLenderLoanBinding binding;
     @Override
@@ -29,4 +30,11 @@ public class LenderLoan extends Fragment {
 
         return binding.getRoot();
     }
+
+    @Override
+    public void ProcessRequest(int position, String status) {
+
+    }
+
+
 }
