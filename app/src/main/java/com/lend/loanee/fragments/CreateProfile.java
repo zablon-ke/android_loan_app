@@ -2,6 +2,7 @@ package com.lend.loanee.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,8 @@ import com.lend.loanee.R;
 import com.lend.loanee.databinding.ActivityRegisterBinding;
 import com.lend.loanee.databinding.FragmentCreateProfileBinding;
 import com.lend.loanee.helpers.ApiService;
+import com.lend.loanee.helpers.LoginData;
+import com.lend.loanee.pages.Home;
 import com.lend.loanee.pages.Register;
 
 import org.json.JSONException;
@@ -38,31 +41,40 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.Calendar;
+import java.util.Objects;
+
 public class CreateProfile extends Fragment implements MaterialStyledDatePickerDialog.OnDateSetListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
+    String mobile;
     Retrofit retrofit;
     ApiService apiService;
     Toolbar toolbar;
 
+    LoginData data;
     String gender="";
+    String role="";
 
     FragmentCreateProfileBinding binding;
 
+    public CreateProfile(LoginData data,String role) {
+        this.role=role;
+        this.data=data;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding=FragmentCreateProfileBinding.inflate(inflater,container,false);
 
-
         retrofit= new Retrofit.Builder()
-                .baseUrl("https://mawingu.cbaloop.com/cba/")
+                .baseUrl(getResources().getString(R.string.url).toString())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService =retrofit.create(ApiService.class);
+        login();
 
         binding.imgMale.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,26 +92,24 @@ public class CreateProfile extends Fragment implements MaterialStyledDatePickerD
                 gender="Female";
             }
         });
+
+        LoginData data =((Register) requireActivity()).getLoginData();
+        String phone=data.getMobile();
+        binding.mobile.setText(data.getMobile());
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                FragmentManager manager=getParentFragmentManager();
-                manager.beginTransaction().replace(R.id.frame_main,new Emergency()).commit();
-
-                ((Emergency.OnToolbarTextChangeListener) getActivity()).updateToolbarText("Emergency Contacts");
-
-//                if (valateFields()){
-//                    String name=binding.firstName.getText().toString();
-//                    String email=binding.email.getText().toString();
-//                    String password =binding.mobile.getText().toString();
-//                    String mobile=binding.idNumber.getText().toString();
-//                    Register(name,email,mobile,password);
-//                }
+                if (valateFields()){
+                    String firstName=binding.firstName.getText().toString();
+                    String middleName=binding.middleName.getText().toString();
+                    String surName=binding.surName.getText().toString();
+                    String email=binding.email.getText().toString();
+                    String idNumber=binding.idNumber.getText().toString();
+                    String dob=binding.dateOfBirth.getText().toString();
+                    Register(firstName,middleName,surName,email,idNumber,dob,phone,gender);
+                }
             }
         });
-
-
         binding.dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,35 +119,57 @@ public class CreateProfile extends Fragment implements MaterialStyledDatePickerD
         });
         return binding.getRoot();
     }
+    private  void  Register(String fname,String mname,String sname, String email, String id,String dob,String mobile,String gender){
+        HashMap<String,String> payload= new HashMap<>();
+        payload.put("firstName",fname);
+        payload.put("middleName",mname);
+        payload.put("lastName",sname);
+        payload.put("Email",email);
+        payload.put("gender",gender);
+        payload.put("ID",id);
+        payload.put("DOB",dob);
+        payload.put("phone",mobile);
+        payload.put("rol",role);
 
-    private  void  Register(String name, String email, String mobile,String password){
-
-        HashMap<String,String> data= new HashMap<>();
-        data.put("fullName",name);
-        data.put("email",email);
-        data.put("msisdn",mobile);
-        data.put("credentials",password);
-        Call<ResponseBody> call2=apiService.registerUser(data);
-
+        Call<ResponseBody> call2=apiService.addProfile(payload);
         call2.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    try {
-                        String jsonresponse=response.body().string();
+                    if(response.isSuccessful()){
+                        try {
+                            String jsonresponse=response.body().string();
+                            JSONObject jsonObject=new JSONObject(jsonresponse);
+                            showError(jsonObject.get("message").toString(),false);
+                            clear();
+                            if(Objects.equals(role,"Lender")){
+                                Intent intent=new Intent(requireContext(), Home.class);
+                                intent.putExtra("logins",data.getToken());
+                                startActivity(intent);
 
-//                        JSONObject json=new JSONObject(jsonresponse);
+                            }
+                            else{
+                                getParentFragmentManager().beginTransaction().replace(R.id.frame_main,new Emergency()).commit();
+                                ((Register) requireActivity()).setToolbar("Emergency Contacts");
+                            }
 
-                        Log.d("LOG ME",response.toString());
-                        showSnackBar(response.toString(),false);
-//                        Intent intent=new Intent(Register.this, Register.class);
-//                        startActivity(intent);
-
-                    } catch (IOException e) {
-                        showSnackBar(e.getMessage(),true);
-                    } catch (Exception e) {
-                        showSnackBar(e.getMessage(),true);
+                        } catch (IOException | JSONException e) {
+                            showError(e.getMessage(),true);
+                        }
                     }
+                    else{
+                        try {
+                            String jsonresponse= null;
+                            jsonresponse = response.errorBody().string();
+                            if(jsonresponse !=null){
+                                JSONObject error=new JSONObject(jsonresponse);
+                                showError(error.get("error").toString(),false);
+                            }
+                        } catch (IOException | JSONException e) {
+                            showError(e.getMessage(),true);
+                        }
+                    }
+                    clear();
 
                 }
                 else{
@@ -162,7 +194,6 @@ public class CreateProfile extends Fragment implements MaterialStyledDatePickerD
                 showSnackBar(t.getMessage(),true);
             }
         });
-
     }
 
     private void showDatePicker(){
@@ -178,8 +209,18 @@ public class CreateProfile extends Fragment implements MaterialStyledDatePickerD
     private Boolean valateFields(){
         boolean validated=true;
         if(binding.firstName.getText().toString().equals("")){
-            showSnackBar("Name Required !!!",true);
+            showSnackBar("First Name Required !!!",true);
             binding.firstName.requestFocus();
+            validated=false;
+        }
+        else if(binding.middleName.getText().toString().equals("")){
+            showSnackBar(" MiddleName Required !!!",true);
+            binding.middleName.requestFocus();
+            validated=false;
+        }
+        else if(binding.surName.getText().toString().equals("")){
+            showSnackBar("SurName Required !!!",true);
+            binding.surName.requestFocus();
             validated=false;
         }
         else if(binding.email.getText().toString().equals("")){
@@ -188,24 +229,16 @@ public class CreateProfile extends Fragment implements MaterialStyledDatePickerD
             validated=false;
         }
         else if(binding.idNumber.getText().toString().equals("")){
-            showSnackBar("Mobile Number required!!!",true);
+            showSnackBar("ID Number required!!!",true);
             binding.idNumber.requestFocus();
             validated=false;
         }
-        else if(binding.idNumber.getText().toString().length() < 9 ){
-            showSnackBar("Mobile number too short ",true);
-            binding.idNumber.requestFocus();
+        else if(binding.dateOfBirth.getText().toString().equals("")){
+            showSnackBar("Date of birth required!!!",true);
             validated=false;
         }
-        else if(binding.mobile.getText().toString().equals("")){
-            showSnackBar("Password Required !!!",true);
-            binding.mobile.requestFocus();
-            validated=false;
-        }
-
-        else if(!binding.mobile.getText().toString().equals(binding.idNumber.getText().toString())){
-            showSnackBar("Password do not match !!!",true);
-            binding.email.requestFocus();
+        else if(Objects.equals(gender,"")){
+            showSnackBar("Select gender",true);
             validated=false;
         }
         return validated;
@@ -220,9 +253,74 @@ public class CreateProfile extends Fragment implements MaterialStyledDatePickerD
         }
         snackbar.show();
     }
-    
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
 
+        binding.dateOfBirth.setText(i+"-"+i1+"-"+i2);
+    }
+
+    private void showError(String text,Boolean isError){
+        Snackbar snackbar=Snackbar.make(binding.linear1,text,Snackbar.LENGTH_SHORT);
+        if(isError){
+            snackbar.getView().setBackgroundColor(getResources().getColor(R.color.red_2));
+        }
+        else{
+            snackbar.getView().setBackgroundColor(getResources().getColor(R.color.teal));
+        }
+        snackbar.show();
+    }
+    private void clear()
+    {
+        binding.firstName.setText("");
+        binding.surName.setText("");
+        binding.middleName.setText("");
+    }
+
+    private void login(){
+        try {
+
+            HashMap<String,String> hash=new HashMap<>();
+            hash.put("mobile",data.getMobile());
+            hash.put("password",data.getPassword());
+            Call<ResponseBody> call1=apiService.loginUser(hash);
+            call1.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()){
+                        String jsonresponse= null;
+                        try {
+                            jsonresponse = response.body().string();
+                            JSONObject jsonObject=new JSONObject(jsonresponse);
+                            String token=jsonObject.getJSONObject("data").getString("token");
+                            data.setToken(token);
+                            showError(jsonObject.getJSONObject("data").toString(),false);
+                        } catch (IOException | JSONException e) {
+                            showError(e.getMessage().toString(),true);
+                        }
+                    }
+                    else{
+                        try {
+                            String jsonresponse= null;
+                            jsonresponse = response.errorBody().string();
+                            if(jsonresponse !=null){
+                                JSONObject error=new JSONObject(jsonresponse);
+                                showError(error.get("error").toString(),false);
+                            }
+                        } catch (IOException | JSONException e) {
+                            showError(e.getMessage(),true);
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    showError(t.getMessage(),true);
+                }
+            });
+        }
+        catch (Exception e){
+
+            showError(e.getMessage(),true);
+        }
     }
 }

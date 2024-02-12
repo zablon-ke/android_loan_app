@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:navigationIcon="@drawable/left"
+    app:titleMarginStart="40dp"
+    app:title="Elon musk"
+    android:id="@+id/toolbar"
+    app:titleTextAppearance="@style/toobar"
+    android:layout_height="?attr/actionBarSize">
+
+</androidx.appcompat.widget.Toolbar>

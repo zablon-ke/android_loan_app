@@ -3,6 +3,7 @@ package com.lend.loanee.pages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -13,12 +14,14 @@ import com.lend.loanee.R;
 import com.lend.loanee.databinding.ActivityLoginBinding;
 import com.lend.loanee.fragments.Emergency;
 import com.lend.loanee.helpers.ApiService;
+import com.lend.loanee.helpers.LoginData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -34,6 +37,7 @@ public class Login extends AppCompatActivity {
     ApiService apiService;
     Retrofit retrofit;
     ActivityLoginBinding binding;
+    LoginData data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +45,7 @@ public class Login extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://mawingu.cbaloop.com/cba/")
+                .baseUrl(getResources().getString(R.string.url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
@@ -59,102 +63,95 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(valateFields() ){
-                    String email=binding.mobile.getText().toString();
+                    String phone=binding.mobile.getText().toString();
                     String password=binding.password.getText().toString();
-//                    login(email,password);
+                    login(phone,password);
                 }
             }
         });
     }
-    private void login(String email,String password){
+    private void login(String mobile,String password){
         try {
-            HashMap<String,String> data=new HashMap<>();
-            data.put("mobile",email);
-            data.put("password",password);
-
-            binding.progress.setVisibility(View.VISIBLE);
-            Call<ResponseBody> call1=apiService.loginUser(data);
-
+            HashMap<String,String> hash=new HashMap<>();
+            hash.put("mobile",mobile);
+            hash.put("password",password);
+            Call<ResponseBody> call1=apiService.loginUser(hash);
             call1.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if(response.isSuccessful()){
+                        String jsonresponse= null;
                         try {
-                            if(response.body() !=null){
-                                String jsonresponse=response.body().string();
+                            jsonresponse = response.body().string();
+                            JSONObject jsonObject=new JSONObject(jsonresponse);
+                            String token=jsonObject.getJSONObject("data").getString("token");
+                            String role=jsonObject.getJSONObject("data").getJSONObject("results").getString("rol");
+                            data=new LoginData(mobile,password,token,role);
 
-                            JSONObject json=new JSONObject(jsonresponse);
+                            Intent intent=new Intent(getApplicationContext(), Home.class);
+                            intent.putExtra("logins",data);
 
-//                            Intent intent=new Intent(Login.this,Home.class);
-//                            startActivity(intent);
-                            }
-                            else{
-                                showSnackBar(response.toString(),false);
-                                Log.d("LOG ME",response.toString());
+                            Log.d("LOG ME",jsonObject.toString());
+                            showError(jsonObject.get("message").toString(),false);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(intent);
+                                }
+                            },500);
 
-                            }
-
-                        } catch (IOException e) {
-                            showSnackBar(e.getMessage() +"   IO",true);
-                        } catch (JSONException e) {
-                            showSnackBar(e.getMessage()+"   JSON",true);
+                        } catch (IOException | JSONException e) {
+                            showError(e.getMessage().toString(),true);
                         }
-
                     }
                     else{
                         try {
-                            String jsonresponse=response.errorBody().string();
-
-//                            JSONObject json=new JSONObject(jsonresponse);
-
-                            showSnackBar(jsonresponse.toString() + response.code(),true);
-                        } catch (IOException e) {
-                            showSnackBar(e.toString() +"  IO2",true);
-                        } catch (Exception e) {
-                            showSnackBar(e.getMessage()+"  JSON2",true);
+                            String jsonresponse= null;
+                            jsonresponse = response.errorBody().string();
+                            if(jsonresponse !=null){
+                                JSONObject error=new JSONObject(jsonresponse);
+                                showError(error.get("error").toString(),false);
+                            }
+                        } catch (IOException | JSONException e) {
+                            showError(e.getMessage(),true);
                         }
-
                     }
                 }
-
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    showSnackBar(t.getMessage(),true);
+                    showError(t.getMessage(),true);
                 }
             });
         }
         catch (Exception e){
 
-            showSnackBar(e.getMessage(),true);
+            showError(e.getMessage(),true);
         }
-
-        binding.progress.setVisibility(View.GONE);
     }
     private Boolean valateFields(){
         boolean validated=true;
         if(binding.mobile.getText().toString().equals("")){
-            showSnackBar("Name Required !!!",true);
+            showError("Name Required !!!",true);
             binding.mobile.requestFocus();
             validated=false;
         }
         else if(binding.password.getText().toString().equals("")){
-            showSnackBar("Password Required !!!",true);
+            showError("Password Required !!!",true);
             binding.password.requestFocus();
             validated=false;
         }
         return validated;
     }
 
-    private void showSnackBar(String text, boolean isError){
+    private void showError(String text,Boolean isError){
         Snackbar snackbar=Snackbar.make(binding.getRoot(),text,Snackbar.LENGTH_SHORT);
         if(isError){
             snackbar.getView().setBackgroundColor(getResources().getColor(R.color.red_2));
         }
         else{
-            snackbar.getView().setBackgroundColor(getResources().getColor(R.color.green));
+            snackbar.getView().setBackgroundColor(getResources().getColor(R.color.teal));
         }
-
         snackbar.show();
     }
+
 }

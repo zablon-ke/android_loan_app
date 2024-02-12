@@ -2,4 +2,20 @@
     <string name="app_name">FriendLend</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="pay_state">
+        * Keep a good credit by paying on time
+    </string>
+    <string name="mpesa_vs_bank">
+       * Repayment with mpesa is instant , transfer takesa few hours to reflect
+    </string>
+
+    <string name="declined">
+        We\'re sorry but we cannot offer you any loan at this time,visit us again after a few days.
+    </string>
+    <string name="approved">
+        Congratulations, your loan has been approved, withdraw funds now.
+    </string>
+    <string name="url">https://bd17-105-29-164-2.ngrok-free.app/</string>
 </resources>

@@ -77,8 +77,8 @@
                                     android:padding="10dp"
                                     android:hint="First Name"
                                     android:background="@drawable/shape"
-                                    android:id="@+id/first_name"
-                                    android:inputType="phone"
+                                    android:id="@+id/fullname1"
+                                    android:inputType="textPersonName"
                                     android:fontFamily="@font/lato_light"
                                     android:layout_height="50dp"/>
                             </LinearLayout>
@@ -212,7 +212,7 @@
                                     android:hint="First Name"
                                     android:background="@drawable/shape"
                                     android:id="@+id/full_name2"
-                                    android:inputType="phone"
+                                    android:inputType="textPersonName"
                                     android:fontFamily="@font/lato_light"
                                     android:layout_height="50dp"/>
                             </LinearLayout>
@@ -320,7 +320,6 @@
                                 />
                         </LinearLayout>
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </ScrollView>
