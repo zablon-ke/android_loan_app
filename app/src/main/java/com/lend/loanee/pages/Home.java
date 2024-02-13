@@ -2,6 +2,7 @@ package com.lend.loanee.pages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,9 +14,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.lend.loanee.R;
 import com.lend.loanee.databinding.ActivityHomeBinding;
+import com.lend.loanee.fragments.Approved;
 import com.lend.loanee.fragments.Chats;
+import com.lend.loanee.fragments.Declined;
 import com.lend.loanee.fragments.Home1;
 import com.lend.loanee.fragments.HomeB;
+import com.lend.loanee.fragments.LenderLoan;
 import com.lend.loanee.fragments.LoanApply1;
 import com.lend.loanee.fragments.LoanApply2;
 import com.lend.loanee.fragments.Profile;
@@ -62,7 +66,8 @@ public class Home extends AppCompatActivity {
                getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new Home1(loginData)).commit();
             }
             else{
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeB()).commit();
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeB(loginData)).commit();
             }
 
         }
@@ -81,7 +86,7 @@ public class Home extends AppCompatActivity {
                   }
                   else{
                       toolbar.setTitle("");
-                      getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeB()).commit();
+                      getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,new HomeB(loginData)).commit();
                   }
               }
               else if(id ==R.id.profile){
@@ -92,11 +97,28 @@ public class Home extends AppCompatActivity {
                   toolbar.setTitle("Loan details");
                   try {
                       if (loginData.getDetails() != null) {
-                          if (loginData.getDetails().getJSONArray("loan").length() > 0) {
-                              getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new loan()).commit();
+                        if (Objects.equals(loginData.getRole(), "Lender")) {
+                              getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new LenderLoan()).commit();
+
                           } else {
-                              getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new LoanApply1()).commit();
-                          }}
+                            if (loginData.getDetails().getJSONArray("loan").length() > 0) {
+                                if(loginData.getDetails().getJSONArray("loan").getJSONObject(0).get("State").toString().equals("Rejected") ){
+                                    toolbar.setTitle(" ");
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new Declined()).commit();
+                                }
+                               else if(loginData.getDetails().getJSONArray("loan").getJSONObject(0).get("State").equals("Approved")){
+                                    toolbar.setTitle(" ");
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new Approved()).commit();
+                                }
+                               else{
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new loan()).commit();
+                                }
+                              }
+                            else {
+                                  getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new LoanApply1()).commit();
+                              }
+                          }
+                      }
                       } catch(JSONException e){
                           throw new RuntimeException(e);
                       }
@@ -184,7 +206,6 @@ public void setToolbar(String title){
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService =retrofit.create(ApiService.class);
-
         getUser();
     }
     private void showError(String text,Boolean isError) {

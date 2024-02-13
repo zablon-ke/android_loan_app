@@ -32,10 +32,6 @@ public class LoanApply2 extends Fragment {
 
         binding=FragmentLoanApply2Binding.inflate(inflater,container,false);
 
-
-
-
-
         return binding.getRoot();
     }
     @Override

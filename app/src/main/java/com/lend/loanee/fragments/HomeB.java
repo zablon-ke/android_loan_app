@@ -36,6 +36,11 @@ public class HomeB extends Fragment {
     LoginData loginData;
     Retrofit retrofit;
     ApiService apiService;
+
+    public HomeB(LoginData loginData) {
+        this.loginData =loginData;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,17 +55,28 @@ public class HomeB extends Fragment {
 
         getChildFragmentManager().beginTransaction().replace(R.id.frm_main1,new BorrowerHistory()).commit();
 
-        binding.btnApply.setOnClickListener(view ->{
 
-            getParentFragmentManager().beginTransaction().replace(R.id.main_frame,new LoanApply1()).commit();
+        try {
+            if(loginData.getDetails() !=null){
+            if(loginData.getDetails().getJSONArray("loan").length() >0){
+                if(loginData.getDetails().getJSONArray("loan").getJSONObject(0).get("State").equals("Completed")){
+                    binding.btnApply.setVisibility(View.GONE);
+                }
+            }
+            }
+            binding.btnApply.setOnClickListener(view ->{
+                getParentFragmentManager().beginTransaction().replace(R.id.main_frame,new LoanApply1()).commit();
+            });
+            binding.btnPayback.setOnClickListener(view ->{
+                getParentFragmentManager().beginTransaction().replace(R.id.main_frame,new Payment()).commit();
+                ((Home) requireActivity()).setToolbar("Pay Loan");
 
-        });
+            });
 
-        binding.btnPayback.setOnClickListener(view ->{
-            getParentFragmentManager().beginTransaction().replace(R.id.main_frame,new Payment()).commit();
-            ((Home) requireActivity()).setToolbar("Pay Loan");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
-        });
         return binding.getRoot();
     }
     @Override
@@ -82,6 +98,7 @@ public class HomeB extends Fragment {
                 .build();
         apiService =retrofit.create(ApiService.class);
         getDuration();
+        getUser();
     }
 
     private  void getDuration(){
@@ -134,6 +151,51 @@ public class HomeB extends Fragment {
         }
         catch (Exception e){
 
+        }
+    }
+
+    private void getUser(){
+
+        try {
+            String auth="Bearer "+loginData.getToken();
+            Call<ResponseBody> call1=apiService.getUser(auth);
+            call1.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()){
+                        try {
+                            String jsonresponse=response.body().string();
+                            JSONObject jsonObject=new JSONObject(jsonresponse);
+                            loginData.setDetails(jsonObject.getJSONObject("data"));
+                            if(loginData.getDetails().getJSONArray("loan").getJSONObject(0).get("State").equals("Completed")){
+                                binding.btnApply.setVisibility(View.GONE);
+                            }
+                        } catch (IOException | JSONException e) {
+                            showError(e.getMessage(),true);
+                        }
+                    }
+                    else{
+                        try {
+                            String jsonresponse= null;
+                            jsonresponse = response.errorBody().string();
+                            if(jsonresponse !=null){
+                                JSONObject error=new JSONObject(jsonresponse);
+                                showError(error.get("error").toString(),false);
+                            }
+                        } catch (IOException | JSONException e) {
+                            showError(e.getMessage(),true);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    showError(t.getMessage(),true);
+                }
+            });
+        }
+        catch (Exception e){
+            showError(e.getMessage(),true);
         }
     }
 }

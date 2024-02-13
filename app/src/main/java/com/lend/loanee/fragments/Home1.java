@@ -1,5 +1,6 @@
 package com.lend.loanee.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -53,6 +54,8 @@ public class Home1 extends Fragment {
         binding=FragmentHome1Binding.inflate(inflater,container,false);
         ((Home) requireActivity()).setToolbar("");
 
+
+
         getChildFragmentManager().beginTransaction().replace(R.id.frm_main1,new LenderHistory()).commit();
 
         initializer();
@@ -80,8 +83,9 @@ public class Home1 extends Fragment {
     private void getLender(){
 
         String auth=String.format("Bearer %s",loginData.getToken());
-        Call<ResponseBody> call2= apiService.getLender(auth);
+        Call<ResponseBody> call2= apiService.getUser(auth);
         call2.enqueue(new Callback<ResponseBody>() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
@@ -90,13 +94,13 @@ public class Home1 extends Fragment {
                         jsonresponse = response.body().string();
                         JSONObject jsonObject=new JSONObject(jsonresponse);
 
-                        JSONObject results=jsonObject.getJSONObject("data");
-                        Object amount=results.get("amount");
+                        JSONObject results=jsonObject.getJSONObject("data").getJSONObject("profile");
+                        double amount=results.getDouble("balance");
                         if(Objects.equals(amount,null)){
-                            binding.balance.setText("0.00");
+                            binding.balance.setText(String.format("%,.2f", amount));;
                         }
                         else{
-                            binding.balance.setText(amount+"");
+                            binding.balance.setText(String.format("%,.2f", amount));;
                         }
 
                     } catch (IOException | JSONException e) {

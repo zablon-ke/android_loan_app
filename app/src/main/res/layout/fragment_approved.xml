@@ -54,16 +54,17 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="20dp"
-                                android:fontFamily="@font/lato_bold"
+                                android:fontFamily="@font/poppins_light"
                                 android:text="Yay! your loan has been approved"
                                 android:gravity="center_horizontal"
                                 android:textFontWeight="700"
-                                android:textSize="28sp" />
+                                android:textSize="24sp" />
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="20dp"
                                 android:fontFamily="@font/roboto"
+                                android:id="@+id/loanAmount"
                                 android:text="@string/approved"
                                 android:gravity="center"
                                 android:textSize="24sp" />
@@ -80,6 +81,7 @@
                         android:layout_marginBottom="40dp"
                         android:layout_marginTop="30dp"
                         android:textSize="18sp"
+                        android:id="@+id/btn_withdraw"
                         android:fontFamily="@font/roboto"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>

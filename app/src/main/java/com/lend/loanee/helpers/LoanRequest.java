@@ -2,21 +2,27 @@ package com.lend.loanee.helpers;
 
 public class LoanRequest {
 
-    String amount;
+    double amount;
     String interest;
     String period;
     String status;
     String fullname;
+    String app_ID="";
 
-    public LoanRequest(String amount, String interest, String period, String status, String fullname) {
+    public LoanRequest(double amount, String interest, String period, String status, String fullname, String app_ID) {
         this.amount = amount;
         this.interest = interest;
         this.period = period;
         this.status = status;
         this.fullname = fullname;
+        this.app_ID = app_ID;
     }
 
-    public String getAmount() {
+    public String getApp_ID() {
+        return app_ID;
+    }
+
+    public double getAmount() {
         return amount;
     }
 

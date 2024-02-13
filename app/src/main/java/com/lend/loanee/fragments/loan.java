@@ -71,7 +71,6 @@ public class loan extends Fragment {
 
                              String status=data.getJSONObject(0).get("State").toString();
 
-
                              double interest=Double.parseDouble( data.getJSONObject(0).get("interestRate").toString());
                              binding.amount.setText(String.format("%,.2f", amount));
                              binding.interest.setText(String.valueOf(interest * amount /100));

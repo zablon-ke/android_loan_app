@@ -8,12 +8,13 @@
   <LinearLayout
       android:layout_width="match_parent"
       android:orientation="vertical"
-      android:layout_margin="10dp"
+      android:layout_margin="5dp"
       android:layout_height="match_parent">
       <TextView
           android:layout_width="match_parent"
           android:layout_marginTop="10dp"
-          android:padding="10dp"
+          android:padding="2dp"
+          android:layout_marginStart="15dp"
           android:text="Loan Requests"
           android:fontFamily="@font/poppins_light"
           android:textFontWeight="700"
@@ -21,7 +22,7 @@
           android:layout_height="wrap_content"/>
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
-    android:padding="5dp"
+    android:id="@+id/recy_requests"
     android:layout_height="wrap_content"/>
       <TextView
           android:layout_width="match_parent"
